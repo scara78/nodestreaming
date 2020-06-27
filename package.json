@@ -16,6 +16,7 @@
     "arraybuffer-to-buffer": "0.0.7",
     "async-request": "^1.2.0",
     "cheerio": "^1.0.0-rc.3",
+    "cors": "^2.8.5",
     "express": "^4.15.3",
     "fs": "0.0.1-security",
     "http": "0.0.1-security",
