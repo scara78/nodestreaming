@@ -113,6 +113,29 @@ async function getvideo(server,code){
     return video;
 }
 
+async function geturl(server,code){
+    let response,data;
+    var res,video;
+    switch (server) {
+        case 'mp4upload':
+            url = "https://www.mp4upload.com/embed-"+code+".html";
+            response = await fetch(url)
+            if(response.ok){
+                data = await response.text();
+                res = data.split('com|');
+                res = res[1].split('|source');
+                res = res[0].split('|');
+                reslm = res.filter(Boolean);
+                video = reslm[1]+"://"+reslm[23]+"."+reslm[0]+".com:"+reslm[53]+"/d/"+reslm[52]+"/"+reslm[51]+".mp4";
+            }
+            break;
+
+        default:
+            break;
+    }
+    return video;
+}
+
 router.get('/:server', function(req, res) {
     let url;
     (async function(){
@@ -139,6 +162,24 @@ router.get('/:server', function(req, res) {
                     })
                 }
                 break;
+            case 'mp4upload':
+              if(req.query.code){
+                    url = await geturl(req.params.server,req.query.code)
+                    if(url) {
+                        res.json({
+                          url : url
+                        })
+                    }else{
+                        res.json({
+                            msg: 'the code does not work, please check'
+                        })
+                    }
+                }else {
+                    res.json({
+                        msg: 'the file code is needed in the url'
+                    })
+                }
+            break;
             default:
                 res.json({
                     msg: 'this server is not available'
